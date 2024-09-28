@@ -1,6 +1,7 @@
 import pandas as pd
+import numpy as np
 
-class Inflation:
+class dataFrame:
 
     dataBase = pd.DataFrame
 
@@ -15,3 +16,8 @@ class Inflation:
     #print (row, col)
     def findSize(self):
         print(self.dataBase.shape)
+
+    #Returns number of columns
+    def returnCols(self):
+        return self.dataBase.columns
+    
