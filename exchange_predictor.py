@@ -2,12 +2,14 @@ import requests
 import pandas as pd
 from prophet import Prophet
 import matplotlib.pyplot as plt
+from forex_python.converter import CurrencyRates
 
 class ExchangeRatePredictor:
     def __init__(self, api_url, base_currency, target_currency, api_key):
         self.api_url = api_url
         self.base_currency = base_currency
         self.target_currency = target_currency
+        self.currency_converter = CurrencyRates()
         self.api_key = api_key
         self.current_rate = None
         self.historical_data = None
@@ -17,13 +19,15 @@ class ExchangeRatePredictor:
     def get_current_exchange_rate(self):
         # Fetch exchange rate from API
         url = f"{self.api_url}?base={self.base_currency}&symbols={self.target_currency}&access_key={self.api_key}"
-        response = requests.get(url)
+        querystring = {'base':"USD","symbols":"CAD"}
+        response = requests.get(url, params=querystring)
         data = response.json()
+        self.current_rate = self.currency_converter.get_rate(self.base_currency, self.target_currency)
+        print(data)
 
         if 'error' in data:
             raise Exception(f"API Error: {data['error']}")
-
-        self.current_rate = data['rates'][self.target_currency]
+        
         return self.current_rate
 
     def get_historical_data(self, start_date, end_date):
