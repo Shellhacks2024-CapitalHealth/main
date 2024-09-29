@@ -64,8 +64,6 @@ class BankAccountAnalyzer:
         
         # Determine the bank's status
         if total_net_savings > 100:
-            self.bank_status = 'Well Off!'
-        elif total_net_savings > 0:
             self.bank_status = 'Healthy'
         else:
             self.bank_status = 'Unhealthy'
@@ -98,3 +96,4 @@ class BankAccountAnalyzer:
         self.process_data()
         self.calculate_totals_and_status()
         self.plot_data()
+
