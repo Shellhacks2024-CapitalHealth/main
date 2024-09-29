@@ -59,6 +59,10 @@ def main():
 
     predictor.advise_on_exchange(threshold=threshold, exchange_type=exchange_type)
 
+
+
+
+
 if __name__ == "__main__":
     
     main()
