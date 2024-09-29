@@ -1,8 +1,7 @@
 import pandas as pd
-import numpy as np
+
 
 class dataFrame:
-
     dataBase = pd.DataFrame
 
     #CONSTRUCTOR
@@ -11,7 +10,7 @@ class dataFrame:
 
     #Prints the first 5 rows of the data base
     def printRow5(self):
-        self.dataBase.head()
+        print(self.dataBase.head())
 
     #print (row, col)
     def findSize(self):
@@ -21,3 +20,6 @@ class dataFrame:
     def returnCols(self):
         return self.dataBase.columns
     
+    #Get Data
+    def getDataFrame(self):
+        return self.dataBase
