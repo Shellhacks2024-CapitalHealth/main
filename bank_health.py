@@ -16,35 +16,35 @@ class BankAccountAnalyzer:
         self.df = pd.read_csv(self.data_file)
         
         # Convert 'DATE' column to datetime
-        self.df['DATE'] = pd.to_datetime(self.df['DATE'])
+        self.df['date of transaction'] = pd.to_datetime(self.df['date of transaction'])
         
         # Replace commas in the amounts and convert them to numeric
-        self.df['DEPOSIT AMT'] = pd.to_numeric(
-            self.df['DEPOSIT AMT'].astype(str).str.replace(',', ''), errors='coerce'
+        self.df['deposits'] = pd.to_numeric(
+            self.df['deposits'].astype(str).str.replace(',', ''), errors='coerce'
         )
-        self.df['WITHDRAWAL AMT'] = pd.to_numeric(
-            self.df['WITHDRAWAL AMT'].astype(str).str.replace(',', ''), errors='coerce'
+        self.df['withdrawals'] = pd.to_numeric(
+            self.df['withdrawals'].astype(str).str.replace(',', ''), errors='coerce'
         )
 
     def process_data(self):
         
         # Extract the first Account No
-        self.first_account_no = self.df['Account No'].iloc[0]
+        self.first_account_no = self.df['account number'].iloc[0]
         
         # Filter the data for the first account number
-        df_filtered = self.df[self.df['Account No'] == self.first_account_no]
+        df_filtered = self.df[self.df['account number'] == self.first_account_no]
         
         # Extract income and spending data
-        income_data = df_filtered[['DATE', 'DEPOSIT AMT']].dropna().copy()
-        spending_data = df_filtered[['DATE', 'WITHDRAWAL AMT']].dropna().copy()
+        income_data = df_filtered[['date of transaction', 'deposits']].dropna().copy()
+        spending_data = df_filtered[['date of transaction', 'withdrawals']].dropna().copy()
         
         # Group the data by month and sum the amounts
-        income_data['YearMonth'] = income_data['DATE'].dt.to_period('M')
-        spending_data['YearMonth'] = spending_data['DATE'].dt.to_period('M')
+        income_data['YearMonth'] = income_data['date of transaction'].dt.to_period('M')
+        spending_data['YearMonth'] = spending_data['date of transaction'].dt.to_period('M')
         
         # Sum income and spending for each month
-        monthly_income = income_data.groupby('YearMonth')['DEPOSIT AMT'].sum().tail(60)
-        monthly_spending = spending_data.groupby('YearMonth')['WITHDRAWAL AMT'].sum().tail(60)
+        monthly_income = income_data.groupby('YearMonth')['deposits'].sum().tail(60)
+        monthly_spending = spending_data.groupby('YearMonth')['withdrawals'].sum().tail(60)
         
         # Create a DataFrame from the monthly income and spending
         self.merged_df = pd.DataFrame({
