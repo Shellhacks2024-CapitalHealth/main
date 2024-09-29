@@ -25,11 +25,11 @@ def main():
     analyzeria.compare_income_to_inflation()
 
     # API Details
-    API_URL = ''
-    HISTORICAL_API_URL = ''
+    API_URL = 'https://api.exchangeratesapi.io/v1/'
+    HISTORICAL_API_URL = 'https://api.exchangeratesapi.io/v1/2013-12-24'
     BASE_CURRENCY = 'USD'
     TARGET_CURRENCY = 'EUR'
-    API_KEY = ''
+    API_KEY = 'd80ef597d002cdaab062362079eaccc1'
 
     # Initialize Predictor
     predictor = ep(
